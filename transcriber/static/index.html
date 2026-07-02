@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meeting Transcriber</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Meeting Transcriber</h1>
+  <p class="sub">Fully local transcription with speaker identification</p>
+</header>
+<main>
+  <section id="dropzone" tabindex="0">
+    <p><strong>Drop a recording here</strong> or click to choose a file</p>
+    <p class="hint">m4a · mp3 · wav · aac · flac · ogg · mp4</p>
+    <input type="file" id="file-input" hidden
+           accept=".m4a,.mp3,.wav,.aac,.flac,.ogg,.mp4,.mov,audio/*">
+  </section>
+
+  <section id="progress" hidden>
+    <div class="spinner"></div>
+    <p id="stage-label"></p>
+  </section>
+
+  <section id="error" class="banner error" hidden></section>
+
+  <section id="result" hidden>
+    <p id="meta" class="sub"></p>
+    <div id="warning" class="banner warn" hidden></div>
+
+    <h2>Speakers</h2>
+    <p class="sub">Play a snippet, then type the person's name.</p>
+    <div id="speakers"></div>
+
+    <h2>Transcript</h2>
+    <div id="transcript"></div>
+
+    <h2>Summary &amp; action items</h2>
+    <button id="summarize-btn">Generate summary</button>
+    <p id="summary-status" class="sub" hidden></p>
+    <div id="summary" class="prose" hidden></div>
+
+    <div class="exports">
+      <a id="export-md" class="button">Export Markdown</a>
+      <a id="export-txt" class="button">Export TXT</a>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
