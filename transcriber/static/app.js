@@ -91,6 +91,7 @@ function renderSpeakers(t) {
     audio.controls = true;
     audio.preload = "none";
     audio.src = `/api/jobs/${jobId}/snippets/${sid}`;
+    audio.addEventListener("error", () => { audio.hidden = true; });
     const input = document.createElement("input");
     input.value = name;
     input.addEventListener("change", async () => {
