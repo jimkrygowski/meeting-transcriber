@@ -25,8 +25,7 @@ uv sync
 Speaker identification uses a gated (but free) HuggingFace model:
 
 1. Create a free account at https://huggingface.co
-2. Accept the conditions at https://huggingface.co/pyannote/speaker-diarization-3.1
-   and https://huggingface.co/pyannote/segmentation-3.0
+2. Accept the conditions at https://huggingface.co/pyannote/speaker-diarization-community-1
 3. Create a read token at https://huggingface.co/settings/tokens
 4. `cp .env.example .env` and set `HF_TOKEN=hf_...`
 

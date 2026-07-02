@@ -1,12 +1,11 @@
 """pyannote speaker diarization: who spoke when."""
 
-DIARIZATION_MODEL = "pyannote/speaker-diarization-3.1"
+DIARIZATION_MODEL = "pyannote/speaker-diarization-community-1"
 
 HF_TOKEN_HELP = (
     "Speaker identification needs a one-time HuggingFace setup: "
     "1) create a free account at huggingface.co, "
-    "2) accept the conditions at huggingface.co/pyannote/speaker-diarization-3.1 "
-    "and huggingface.co/pyannote/segmentation-3.0, "
+    "2) accept the conditions at huggingface.co/pyannote/speaker-diarization-community-1, "
     "3) create a read token at huggingface.co/settings/tokens and put it in .env "
     "as HF_TOKEN=... then restart the server. "
     "After the first model download everything runs offline."
@@ -35,7 +34,7 @@ def diarize(wav_path, hf_token: str) -> list[dict]:
     from pyannote.audio import Pipeline
 
     try:
-        pipeline = Pipeline.from_pretrained(DIARIZATION_MODEL, use_auth_token=hf_token)
+        pipeline = Pipeline.from_pretrained(DIARIZATION_MODEL, token=hf_token)
     except Exception as e:
         raise DiarizationSetupError(f"{e}. {HF_TOKEN_HELP}") from e
     if pipeline is None:  # pyannote returns None when the model is gated/unauthorized
