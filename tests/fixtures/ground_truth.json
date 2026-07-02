@@ -1,0 +1,94 @@
+{
+  "voices": {
+    "spk0": "Samantha",
+    "spk1": "Daniel",
+    "spk2": "Karen"
+  },
+  "turns": [
+    {
+      "start": 0.0,
+      "end": 7.45,
+      "speaker": "spk0"
+    },
+    {
+      "start": 8.25,
+      "end": 17.45,
+      "speaker": "spk1"
+    },
+    {
+      "start": 18.25,
+      "end": 24.97,
+      "speaker": "spk2"
+    },
+    {
+      "start": 25.77,
+      "end": 32.92,
+      "speaker": "spk0"
+    },
+    {
+      "start": 33.72,
+      "end": 42.27,
+      "speaker": "spk1"
+    },
+    {
+      "start": 43.07,
+      "end": 50.31,
+      "speaker": "spk2"
+    },
+    {
+      "start": 51.11,
+      "end": 60.53,
+      "speaker": "spk0"
+    },
+    {
+      "start": 61.33,
+      "end": 69.28,
+      "speaker": "spk1"
+    },
+    {
+      "start": 70.08,
+      "end": 78.01,
+      "speaker": "spk2"
+    },
+    {
+      "start": 78.81,
+      "end": 85.96,
+      "speaker": "spk0"
+    },
+    {
+      "start": 86.76,
+      "end": 92.37,
+      "speaker": "spk1"
+    },
+    {
+      "start": 93.17,
+      "end": 101.45,
+      "speaker": "spk2"
+    },
+    {
+      "start": 102.25,
+      "end": 107.9,
+      "speaker": "spk0"
+    },
+    {
+      "start": 108.7,
+      "end": 114.04,
+      "speaker": "spk1"
+    },
+    {
+      "start": 114.84,
+      "end": 124.65,
+      "speaker": "spk0"
+    },
+    {
+      "start": 125.45,
+      "end": 127.75,
+      "speaker": "spk2"
+    },
+    {
+      "start": 128.55,
+      "end": 130.62,
+      "speaker": "spk1"
+    }
+  ]
+}
