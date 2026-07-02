@@ -45,4 +45,7 @@ def diarize(wav_path, hf_token: str) -> list[dict]:
     except Exception:
         pass  # fall back to CPU silently; slower but correct
 
-    return turns_from_annotation(pipeline(str(wav_path)))
+    output = pipeline(str(wav_path))
+    # pyannote 4 wraps the Annotation in a DiarizeOutput dataclass
+    annotation = getattr(output, "speaker_diarization", output)
+    return turns_from_annotation(annotation)
