@@ -112,8 +112,21 @@ speaker IDs.
 - **Unit tests** for export formatting and job-state transitions.
 - **Audio conversion** tested against small generated fixture files (e.g.,
   sine-wave m4a/mp3 produced by ffmpeg in a fixture).
+- **Multi-speaker fixture with ground truth** — a scripted 2–3 minute
+  conversation synthesized with distinct macOS `say` voices (e.g., Samantha,
+  Daniel, Karen), stitched together with ffmpeg. Because the script defines
+  exactly who speaks when, a ground-truth JSON (`{start, end, speaker}`) is
+  generated alongside the audio. A generation script
+  (`tests/fixtures/generate_conversation.py`) makes the fixture reproducible;
+  the rendered m4a and ground truth are committed so tests don't depend on
+  the local TTS voice set.
 - **Full pipeline test** with real models behind a `slow` pytest marker, run
-  manually, not in the default test run.
+  manually, not in the default test run. It runs the complete pipeline on the
+  multi-speaker fixture and asserts: correct speaker count detected, and
+  segment-level speaker attribution agrees with ground truth above a set
+  threshold (e.g., ≥90% of speech duration). Caveat noted: TTS voices are
+  acoustically cleaner than real meetings, so this validates the pipeline
+  wiring and basic diarization, not worst-case real-world accuracy.
 - **Frontend** verified by driving the real app in a browser.
 
 ## Out of scope (YAGNI)
