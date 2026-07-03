@@ -11,7 +11,7 @@ def client(tmp_path, monkeypatch):
     def fake_start_pipeline(store, job_id, hf_token):
         jobs.run_pipeline(
             store, job_id, hf_token,
-            transcribe_fn=lambda wav: [
+            transcribe_fn=lambda wav, context="": [
                 {"start": 0.0, "end": 1.0, "text": "Hello."},
                 {"start": 1.0, "end": 2.0, "text": "Hi."},
             ],
@@ -40,6 +40,16 @@ def test_upload_and_fetch(client, tone_m4a):
     assert len(body["transcript"]["segments"]) == 2
     r = client.get("/api/jobs/latest")
     assert r.json()["job"]["id"] == job_id
+
+
+def test_upload_stores_context(client, tone_m4a):
+    with tone_m4a.open("rb") as f:
+        r = client.post("/api/jobs",
+                        files={"file": ("standup.m4a", f, "audio/m4a")},
+                        data={"context": "Attendees: Priya, Marek."})
+    assert r.status_code == 200
+    job = client.get(f"/api/jobs/{r.json()['job_id']}").json()["job"]
+    assert job["context"] == "Attendees: Priya, Marek."
 
 
 def test_upload_rejects_non_audio(client, tmp_path):

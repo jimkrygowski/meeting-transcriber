@@ -30,6 +30,7 @@ async function uploadFile(file) {
   $("stage-label").textContent = "Uploading…";
   const form = new FormData();
   form.append("file", file);
+  form.append("context", $("context").value);
   const r = await fetch("/api/jobs", { method: "POST", body: form });
   if (!r.ok) {
     $("progress").hidden = true;
@@ -165,6 +166,11 @@ function showError(msg) {
   $("error").hidden = !msg;
   $("error").textContent = msg || "";
 }
+
+// context persists across sessions so recurring names stay filled in
+$("context").value = localStorage.getItem("transcriber-context") || "";
+$("context").addEventListener("input", () =>
+  localStorage.setItem("transcriber-context", $("context").value));
 
 // restore the most recent job on load
 refresh();

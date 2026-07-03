@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -26,8 +26,9 @@ def _payload(job_id: str) -> dict:
 
 
 @app.post("/api/jobs")
-async def upload(file: UploadFile):
-    job_id, dest = jobs.create_job(store, file.filename or "recording")
+async def upload(file: UploadFile, context: str = Form("")):
+    job_id, dest = jobs.create_job(store, file.filename or "recording",
+                                   context=context)
     with dest.open("wb") as out:
         shutil.copyfileobj(file.file, out)
     try:

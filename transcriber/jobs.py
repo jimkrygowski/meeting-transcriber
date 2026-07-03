@@ -68,7 +68,8 @@ class JobStore:
         return next(self.job_dir(job_id).glob("original.*"))
 
 
-def create_job(store: JobStore, original_name: str) -> tuple[str, Path]:
+def create_job(store: JobStore, original_name: str,
+               context: str = "") -> tuple[str, Path]:
     """Register a job and return (job_id, path where the upload must be written)."""
     job_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
     store.job_dir(job_id).mkdir(parents=True)
@@ -82,6 +83,7 @@ def create_job(store: JobStore, original_name: str) -> tuple[str, Path]:
         "duration": None,
         "error": None,
         "warning": None,
+        "context": context.strip(),
     })
     return job_id, store.job_dir(job_id) / f"original{suffix}"
 
@@ -97,7 +99,8 @@ def run_pipeline(store, job_id, hf_token,
         audio.convert_to_wav(src, wav)
 
         store.update_job(job_id, stage="transcribing")
-        segments = transcribe_fn(wav)
+        job = store.read_job(job_id)
+        segments = transcribe_fn(wav, context=job.get("context", ""))
 
         store.update_job(job_id, stage="diarizing")
         warning = None

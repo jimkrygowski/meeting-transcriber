@@ -13,6 +13,12 @@ header h1 { margin-bottom: 0; }
 }
 #dropzone.drag { border-color: #4a90d9; background: rgba(74, 144, 217, .08); }
 .hint { color: #888; font-size: .9em; }
+#context-box { margin: 16px 0 24px; }
+#context-box label { display: block; margin-bottom: 6px; font-weight: 500; }
+#context-box textarea {
+  width: 100%; font: inherit; padding: 8px 10px; border-radius: 8px;
+  border: 1px solid #bbb; resize: vertical;
+}
 #progress { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
 .spinner {
   width: 20px; height: 20px; border: 3px solid #ccc; border-top-color: #4a90d9;

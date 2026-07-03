@@ -15,7 +15,7 @@ def make_job(store, tone_m4a):
     return job_id
 
 
-def fake_transcribe(wav):
+def fake_transcribe(wav, context=""):
     return [
         {"start": 0.0, "end": 1.0, "text": "Hello."},
         {"start": 1.0, "end": 2.0, "text": "Hi there."},
@@ -34,7 +34,23 @@ def test_create_job_writes_processing_state(store):
     job = store.read_job(job_id)
     assert job["status"] == "processing"
     assert job["original_name"] == "standup.m4a"
+    assert job["context"] == ""
     assert dest.name == "original.m4a"
+
+
+def test_pipeline_passes_context_to_transcriber(store, tone_m4a):
+    job_id, dest = create_job(store, "standup.m4a", context="Attendees: Priya.")
+    dest.write_bytes(tone_m4a.read_bytes())
+    seen = {}
+
+    def spy_transcribe(wav, context=""):
+        seen["context"] = context
+        return fake_transcribe(wav)
+
+    run_pipeline(store, job_id, "tok",
+                 transcribe_fn=spy_transcribe, diarize_fn=fake_diarize)
+    assert seen["context"] == "Attendees: Priya."
+    assert store.read_job(job_id)["context"] == "Attendees: Priya."
 
 
 def test_pipeline_happy_path(store, tone_m4a):
@@ -69,7 +85,7 @@ def test_pipeline_diarization_setup_error_degrades_gracefully(store, tone_m4a):
 def test_pipeline_hard_error_records_stage(store, tone_m4a):
     job_id = make_job(store, tone_m4a)
 
-    def boom(wav):
+    def boom(wav, context=""):
         raise RuntimeError("GPU on fire")
 
     run_pipeline(store, job_id, "tok",

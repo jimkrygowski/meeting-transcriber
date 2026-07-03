@@ -41,13 +41,17 @@ uv run python -m transcriber
 
 Open http://localhost:8484, then:
 
-1. Drop a recording onto the page. Progress shows each stage (a 1-hour meeting
-   transcribes in a few minutes on an M-series GPU).
-2. In **Speakers**, play each snippet and type the person's name — the whole
+1. Optionally fill in **Names & terms in this meeting** — attendee names,
+   product names, jargon. Whisper uses it to bias spelling (it's passed as the
+   `initial_prompt`), which is the biggest accuracy lever for proper nouns.
+   The field persists in your browser between sessions.
+2. Drop a recording onto the page. Progress shows each stage (a 1-hour meeting
+   takes roughly 6–8 minutes with the full large-v3 model on an M-series GPU).
+3. In **Speakers**, play each snippet and type the person's name — the whole
    transcript updates.
-3. Click **Generate summary** for a local-LLM summary and action items
+4. Click **Generate summary** for a local-LLM summary and action items
    (requires Ollama running: `ollama serve` or the Ollama app).
-4. Export as Markdown or TXT.
+5. Export as Markdown or TXT.
 
 Each job (audio + transcript JSON) is stored in `./data/<job-id>/`; the most
 recent job is restored when you reopen the page.
