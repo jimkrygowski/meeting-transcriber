@@ -2,10 +2,17 @@ const $ = (id) => document.getElementById(id);
 const STAGE_LABELS = {
   uploading: "Uploading…",
   converting: "Converting audio…",
-  transcribing: "Transcribing — a long meeting takes a few minutes…",
   diarizing: "Identifying speakers…",
   finishing: "Finalizing…",
 };
+
+function transcribingLabel(durationSec) {
+  if (!durationSec) return "Transcribing…";
+  const hrs = durationSec / 3600;
+  const estMin = Math.round(hrs * 10);  // ~10 min/hr on M-series
+  if (estMin < 2) return "Transcribing — about a minute…";
+  return `Transcribing — roughly ${estMin} minutes for this recording…`;
+}
 let jobId = null;
 let pollTimer = null;
 
@@ -63,7 +70,9 @@ async function refresh() {
 function render({ job, transcript }) {
   if (job.status === "processing") {
     $("progress").hidden = false;
-    $("stage-label").textContent = STAGE_LABELS[job.stage] || job.stage;
+    $("stage-label").textContent = job.stage === "transcribing"
+      ? transcribingLabel(job.duration)
+      : (STAGE_LABELS[job.stage] || job.stage);
     return;
   }
   $("progress").hidden = true;
